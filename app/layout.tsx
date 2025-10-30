@@ -1,7 +1,9 @@
 import "./globals.css";
-import { Navbar } from "@/app/components/navbar";
-import  Footer  from "@/app/components/footer"
-import { footer } from "motion/react-client";
+import { Navbar } from "@/components/navbar";
+import  Footer  from "@/components/footer"
+/* import { footer } from "motion/react-client"; */
+import { Toaster } from 'sonner';
+
 
 export const metadata = {
   title: "Educational Day",
@@ -19,6 +21,7 @@ export default function RootLayout({
         <Navbar />
         <main className="pt-20">{children}</main>
         <Footer/>
+        <Toaster richColors position="bottom-right" />
       </body>
     </html>
   );
