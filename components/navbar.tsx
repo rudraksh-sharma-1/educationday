@@ -51,7 +51,7 @@ export function Navbar({
   return (
     <motion.nav
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="fixed inset-x-0 mx-auto h-20 flex w-screen items-center justify-around border px-3 py-2 sm:px-4 z-50 shadow-lg
+      className="inset-x-0 mx-auto h-20 flex w-screen items-center justify-around border px-3 py-2 sm:px-4 z-50 shadow-lg
       bg-white/80 border-gray-200 text-neutral-800 backdrop-blur-md
       dark:bg-black/80 dark:border-gray-700/30 dark:text-neutral-100"
     >
