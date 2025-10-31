@@ -10,7 +10,7 @@ export default async function AdminDashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // ✅ Authentication check
+  // Authentication check
   if (!user) redirect("/");
 
   const { data: profile } = await supabase
@@ -19,10 +19,10 @@ export default async function AdminDashboardPage() {
     .eq("id", user.id)
     .maybeSingle();
 
-  // ✅ Role check
+  // Role check
   if (!profile || profile.role !== "admin") redirect("/");
 
-  // ✅ Fetch events
+  // Fetch events
   const { data: events, error } = await supabase
     .from("events")
     .select("*")
@@ -43,11 +43,11 @@ export default async function AdminDashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <Link href="/admin/events/create">
+        {/* <Link href="/admin/events/create">
           <Button className="bg-blue-600 hover:bg-blue-700 text-white">
             + Create Event
           </Button>
-        </Link>
+        </Link> */}
       </div>
 
       {/* Event List */}
@@ -78,7 +78,7 @@ export default async function AdminDashboardPage() {
                     )}
                   </p>
 
-                  {/* ✅ Manage Registrations Button */}
+                  {/* Manage Registrations Button */}
                   <Link href={`/admin/events/${event.id}`}>
                     <Button
                       variant="outline"

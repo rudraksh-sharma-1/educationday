@@ -14,6 +14,7 @@ interface Event {
   is_team_event: boolean;
   max_team_size: number | null;
   min_team_size: number | null;
+  image_url?: string; // optional image field
 }
 
 export default function EventCard() {
@@ -37,25 +38,23 @@ export default function EventCard() {
     fetchEvents();
   }, [supabase]);
 
-  if (loading) {
+  if (loading)
     return (
       <div className="flex justify-center items-center py-20 text-gray-500">
         Loading events...
       </div>
     );
-  }
 
-  if (error) {
+  if (error)
     return (
       <div className="flex justify-center items-center py-20 text-red-500">
         Error: {error}
       </div>
     );
-  }
 
   return (
     <section className="py-12 px-4 md:px-8" id="events">
-      <h2 className="text-3xl font-bold text-center mb-8">Events</h2>
+      <h2 className="text-3xl font-bold text-center mb-10">Events</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         <AnimatePresence>
@@ -68,15 +67,30 @@ export default function EventCard() {
               exit={{ opacity: 0 }}
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
-              className="bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden flex flex-col justify-between hover:shadow-lg border border-gray-200 dark:border-gray-800"
+              className="bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden hover:shadow-lg border border-gray-200 dark:border-gray-800 flex flex-col"
             >
+              {/* ✅ Event Image */}
+              <div className="relative w-full h-48 bg-gray-100 dark:bg-neutral-800">
+                <img
+                  src={
+                    event.image_url ||
+                    "https://placehold.co/600x400?text=Event+Image"
+                  }
+                  alt={event.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* ✅ Event Info */}
               <div className="p-5 flex flex-col flex-1">
                 <h3 className="text-xl font-semibold mb-2 text-neutral-800 dark:text-neutral-100">
                   {event.name}
                 </h3>
+
                 <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3">
                   {event.description || "No description provided."}
                 </p>
+
                 <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
                   <p>
                     <span className="font-semibold">Start:</span>{" "}

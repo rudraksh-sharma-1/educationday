@@ -2,6 +2,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { Navbar } from "@/components/navbar";
 import Footer from "@/components/footer";
+import { UserProvider } from "./context/UserContext";
 
 export const metadata = {
   title: "Educational Day",
@@ -18,7 +19,9 @@ export default function RootLayout({
       <body className="bg-white dark:bg-black transition-colors duration-300">
         {/* All pages will render inside this */}
         <Navbar />
+        <UserProvider>
         {children}
+        </UserProvider>
         <Footer />
         <Toaster richColors position="bottom-right" />
       </body>
