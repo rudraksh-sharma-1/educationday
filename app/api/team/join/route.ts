@@ -12,11 +12,11 @@ export async function POST(req: Request) {
 
     const supabase = await createServerClientInstance();
 
-    // ✅ Verify user session
+    // Verify user session
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-    // ✅ Find team by code
+    // Find team by code
     const { data: team, error: teamErr } = await supabase
       .from('teams')
       .select('*')
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     if (teamErr) return NextResponse.json({ error: 'Error fetching team' }, { status: 500 });
     if (!team) return NextResponse.json({ error: 'Team not found' }, { status: 404 });
 
-    // ✅ Get event data
+    // Get event data
     const { data: event, error: eventErr } = await supabase
       .from('events')
       .select('*')
@@ -38,7 +38,11 @@ export async function POST(req: Request) {
     if (!event.registration_open)
       return NextResponse.json({ error: 'Registrations for this event are closed' }, { status: 400 });
 
-    // ✅ Check if user already registered (solo)
+    // check registration open
+    if (!event.registration_open)
+  return NextResponse.json({ error: "Registrations are closed." }, { status: 400 });
+
+    // Check if user already registered (solo)
     const { data: soloReg } = await supabase
       .from('registration')
       .select('id')
@@ -53,7 +57,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // ✅ Check if user already joined another team for this event
+    // Check if user already joined another team for this event
     const { data: userTeams } = await supabase
       .from('team_members')
       .select('team_id')
@@ -78,7 +82,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // ✅ Check if already a member of this team
+    // Check if already a member of this team
     const { data: alreadyMember } = await supabase
       .from('team_members')
       .select('id')
@@ -93,7 +97,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // ✅ Check if team is full
+    // Check if team is full
     if (event.max_team_size) {
       const { data: members, error: membersErr } = await supabase
         .from('team_members')
@@ -108,7 +112,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // ✅ Add member
+    // Add member
     const { data: newMember, error: joinErr } = await supabase
       .from('team_members')
       .insert({
@@ -124,7 +128,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: joinErr.message }, { status: 500 });
     }
 
-    // ✅ Ensure registration exists for team (leader might have created it)
+    // Ensure registration exists for team (leader might have created it)
     const { data: existingReg } = await supabase
       .from('registration')
       .select('*')

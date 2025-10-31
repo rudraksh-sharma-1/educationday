@@ -2,7 +2,7 @@
 
 import Hero from "@/components/hero-section";
 import EventCard from "@/components/event-card";
-import FAQ from "@/components/faq";
+import { FAQ } from "@/components/faq";
 import EventSchedule from "@/components/eventSchedule";
 
 export default function HomePage() {

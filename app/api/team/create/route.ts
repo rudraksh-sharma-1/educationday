@@ -22,12 +22,16 @@ export async function POST(req: Request) {
   const { data: event } = await supabase.from('events').select('*').eq('id', eventId).single();
   if (!event) return NextResponse.json({ error: 'Event not found' }, { status: 404 });
 
+  // check registration open
+  if (!event.registration_open)
+  return NextResponse.json({ error: "Registrations are closed." }, { status: 400 });
+
   // ensure team events allowed
   if (!event.is_team_event) {
     return NextResponse.json({ error: 'Event does not allow teams' }, { status: 400 });
   }
 
-  // ✅ Check if user already created a team for this event
+  // Check if user already created a team for this event
   const { data: existingTeam, error: existingErr } = await supabase
     .from('teams')
     .select('id, event_id')

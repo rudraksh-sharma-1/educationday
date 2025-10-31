@@ -20,7 +20,7 @@ interface TeamMember {
 export default async function EventRegistrationsPage(props: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await props.params; // ✅ Must await params in Next.js 15+
+  const { id } = await props.params; // Must await params in Next.js 15+
   const supabase = await createServerClientInstance();
 
   // Check user

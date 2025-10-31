@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { createClient } from "@/app/lib/supabaseClient";
 import Link from "next/link";
+import { Calendar, Users, User, Clock, MapPin, ArrowRight, Sparkles } from "lucide-react";
 
 interface Event {
   id: string;
@@ -14,7 +15,9 @@ interface Event {
   is_team_event: boolean;
   max_team_size: number | null;
   min_team_size: number | null;
-  image_url?: string; // optional image field
+  registration_open: boolean;
+  image_url?: string;
+  is_mun_event?: string | null;
 }
 
 export default function EventCard() {
@@ -31,7 +34,13 @@ export default function EventCard() {
         .order("start_date", { ascending: true });
 
       if (error) setError(error.message);
-      else setEvents(data || []);
+      else {
+        const filtered = (data || []).filter(
+          (e: Event) => !e.is_mun_event || e.is_mun_event === "false"
+        );
+        setEvents(filtered);
+      }
+      
       setLoading(false);
     }
 
@@ -40,91 +49,175 @@ export default function EventCard() {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center py-20 text-gray-500">
-        Loading events...
+      <div className="flex flex-col justify-center items-center py-20 sm:py-32">
+        <div className="relative">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+          <Sparkles className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 text-indigo-600" />
+        </div>
+        <p className="mt-4 sm:mt-6 text-base sm:text-lg font-medium text-gray-600">Loading amazing events...</p>
       </div>
     );
 
   if (error)
     return (
-      <div className="flex justify-center items-center py-20 text-red-500">
-        Error: {error}
+      <div className="flex flex-col justify-center items-center py-20 sm:py-32">
+        <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-6 sm:p-8 max-w-md">
+          <p className="text-red-600 font-semibold text-base sm:text-lg">Error loading events</p>
+          <p className="text-red-500 text-sm sm:text-base mt-2">{error}</p>
+        </div>
       </div>
     );
 
   return (
-    <section className="py-12 px-4 md:px-8" id="events">
-      <h2 className="text-3xl font-bold text-center mb-10">Events</h2>
+    <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white dark:from-neutral-950 dark:to-neutral-900" id="events">
+      {/* Section Header */}
+      <div className="text-center mb-10 sm:mb-16 max-w-3xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="inline-flex items-center gap-2 bg-indigo-100 dark:bg-indigo-900/30 px-4 py-2 rounded-full mb-4 sm:mb-6">
+            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 dark:text-indigo-400" />
+            <span className="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-indigo-400">Upcoming Events</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3 sm:mb-4">
+            Discover Learning Opportunities
+          </h2>
+          <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400">
+            Join educational events designed to enhance your skills and knowledge
+          </p>
+        </motion.div>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      {/* Events Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
         <AnimatePresence>
-          {events.map((event) => (
+          {events.map((event, index) => (
             <motion.div
               key={event.id}
               layout
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden hover:shadow-lg border border-gray-200 dark:border-gray-800 flex flex-col"
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="group relative bg-white dark:bg-neutral-900 rounded-2xl sm:rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden flex flex-col transition-all duration-300"
             >
-              {/* ✅ Event Image */}
-              <div className="relative w-full h-48 bg-gray-100 dark:bg-neutral-800">
+              {/* Status Badge */}
+              {event.registration_open && (
+                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-10">
+                  <div className="bg-green-500 text-white text-xs sm:text-sm font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shadow-lg flex items-center gap-1 sm:gap-1.5">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse"></div>
+                    Open
+                  </div>
+                </div>
+              )}
+
+              {/* Event Image */}
+              <div className="relative w-full h-48 sm:h-56 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/20 dark:to-purple-900/20 overflow-hidden">
                 <img
-                  src={
-                    event.image_url ||
-                    "https://placehold.co/600x400?text=Event+Image"
-                  }
+                  src={event.image_url || "https://placehold.co/600x400?text=Event+Image"}
                   alt={event.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
 
-              {/* ✅ Event Info */}
-              <div className="p-5 flex flex-col flex-1">
-                <h3 className="text-xl font-semibold mb-2 text-neutral-800 dark:text-neutral-100">
+              {/* Event Info */}
+              <div className="p-5 sm:p-6 flex flex-col flex-1">
+                <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-neutral-800 dark:text-neutral-100 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                   {event.name}
                 </h3>
 
-                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3">
-                  {event.description || "No description provided."}
+                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mb-4 sm:mb-5 line-clamp-2">
+                  {event.description || "Join us for an exciting learning experience!"}
                 </p>
 
-                <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                  <p>
-                    <span className="font-semibold">Start:</span>{" "}
-                    {new Date(event.start_date).toLocaleDateString()}
-                  </p>
-                  <p>
-                    <span className="font-semibold">End:</span>{" "}
-                    {new Date(event.end_date).toLocaleDateString()}
-                  </p>
+                {/* Event Details */}
+                <div className="space-y-2 sm:space-y-2.5 mb-4 sm:mb-5">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <div className="bg-indigo-100 dark:bg-indigo-900/30 p-1.5 sm:p-2 rounded-lg">
+                      <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-700 dark:text-gray-300">
+                        {new Date(event.start_date).toLocaleDateString('en-US', { 
+                          month: 'short', 
+                          day: 'numeric',
+                          year: 'numeric'
+                        })}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <div className="bg-purple-100 dark:bg-purple-900/30 p-1.5 sm:p-2 rounded-lg">
+                      <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-600 dark:text-purple-400" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-700 dark:text-gray-300">
+                        Ends {new Date(event.end_date).toLocaleDateString('en-US', { 
+                          month: 'short', 
+                          day: 'numeric'
+                        })}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="flex justify-between items-center mt-auto pt-2">
-                  <span
-                    className={`px-3 py-1 text-xs font-medium rounded-full ${
-                      event.is_team_event
-                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100"
-                        : "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100"
-                    }`}
-                  >
-                    {event.is_team_event ? "Team Event" : "Solo Event"}
-                  </span>
+                {/* Footer */}
+                <div className="flex justify-between items-center mt-auto pt-3 sm:pt-4 border-t border-gray-100 dark:border-gray-800">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    {event.is_team_event ? (
+                      <>
+                        <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
+                        <span className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400">
+                          Team Event
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <User className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400" />
+                        <span className="text-xs sm:text-sm font-semibold text-green-600 dark:text-green-400">
+                          Solo Event
+                        </span>
+                      </>
+                    )}
+                  </div>
 
                   <Link
                     href={`/events/${event.id}/register`}
-                    className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm rounded-full transition"
+                    className="group/btn relative px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-xs sm:text-sm font-semibold rounded-xl sm:rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl flex items-center gap-1.5 sm:gap-2"
                   >
                     Register
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </div>
+
+              {/* Decorative Element */}
+              <div className="absolute -bottom-1 -right-1 w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
+
+      {/* Empty State */}
+      {events.length === 0 && !loading && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center py-16 sm:py-20"
+        >
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-900 dark:to-neutral-800 rounded-2xl sm:rounded-3xl p-8 sm:p-12 max-w-md mx-auto border border-gray-200 dark:border-gray-700">
+            <Calendar className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-gray-400 mb-4 sm:mb-6" />
+            <h3 className="text-lg sm:text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">No Events Available</h3>
+            <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
+              Check back soon for exciting upcoming events!
+            </p>
+          </div>
+        </motion.div>
+      )}
     </section>
   );
 }

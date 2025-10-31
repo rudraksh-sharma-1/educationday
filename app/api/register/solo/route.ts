@@ -20,6 +20,10 @@ export async function POST(req: Request) {
   if (eventErr) return NextResponse.json({ error: 'Error fetching event' }, { status: 500 });
   if (!event) return NextResponse.json({ error: 'Event not found' }, { status: 404 });
 
+  //check registration open for event
+  if (!event.registration_open)
+  return NextResponse.json({ error: "Registrations are closed." }, { status: 400 });
+
   //If event allows team registration, ensure user is not part of any team for this event
   if (event.is_team_event) {
     // Find all teams for this event that the user is a member or leader of
