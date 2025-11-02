@@ -2,11 +2,9 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Twitter, Linkedin, MapPin, Mail, Phone, Heart, ExternalLink, ChevronRight } from "lucide-react";
-
+import { MapPin, Mail, Phone, ChevronRight, Instagram, Facebook,Linkedin } from "lucide-react";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-
   const footerLinks = [
     { name: "About", href: "#about" },
     { name: "Schedule", href: "#schedule" },
@@ -26,15 +24,9 @@ const Footer = () => {
 
   return (
     <footer className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute inset-0 overflow-hidden opacity-10">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-500 rounded-full blur-3xl"></div>
-      </div>
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
-        <div className="pt-12 sm:pt-16 pb-8 sm:pb-12">
+        <div className="pt-5 sm:pt-5 pb-2 sm:pb-6">
           {/* Logo and Title Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -44,12 +36,9 @@ const Footer = () => {
             className="text-center mb-8 sm:mb-12"
           >
             <div className="inline-flex items-center justify-center gap-3 mb-4">
-              <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-xl">
-                <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-              </div>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent mb-2">
-              Bhartiya Yuva Manch
+            <h2 className="text-3xl sm:text-4xl py-2 lg:text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent mb-2">
+              National Students' Convention
             </h2>
             <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto px-4">
               Empowering youth through education, innovation, and community engagement
@@ -92,10 +81,9 @@ const Footer = () => {
                   <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-base sm:text-lg font-bold text-white mb-2">Our Location</h3>
-                  <p className="text-xs sm:text-sm lg:text-base text-gray-300 leading-relaxed">
+                 {/*  <p className="text-xs sm:text-sm lg:text-base text-gray-300 leading-relaxed">
                     Bharati Vidyapeeth's Institute of Computer Applications and Management
-                  </p>
+                  </p> */}
                   <p className="text-xs sm:text-sm lg:text-base text-gray-400 mt-2 leading-relaxed">
                     A-4, Paschim Vihar, Opp. Paschim Vihar (East) Metro Station, Rohtak Road, New Delhi, Delhi 110063
                   </p>
@@ -112,32 +100,6 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mb-8 sm:mb-12"
           >
-            {/* <div className="text-center mb-6">
-              <p className="text-sm sm:text-base text-gray-400 mb-4 flex items-center justify-center gap-2">
-                Designed and Developed with
-                <Heart className="w-4 h-4 text-red-500 fill-current animate-pulse" />
-                by
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
-                {developers.map((dev, index) => (
-                  <a
-                    key={index}
-                    href={dev.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-purple-600/20 to-indigo-600/20 hover:from-purple-600/30 hover:to-indigo-600/30 border border-purple-500/30 hover:border-purple-500/50 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300 w-full sm:w-auto max-w-xs"
-                  >
-                    <div className="bg-purple-500 p-2 rounded-lg">
-                      <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                    </div>
-                    <span className="text-sm sm:text-base font-semibold text-white group-hover:text-purple-300 transition-colors">
-                      {dev.name}
-                    </span>
-                    <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 group-hover:text-purple-400 ml-auto" />
-                  </a>
-                ))}
-              </div>
-            </div> */}
           </motion.div>
 
           {/* Contact Section */}
@@ -149,19 +111,28 @@ const Footer = () => {
             className="border-t border-gray-800 pt-8 sm:pt-10"
           >
             <div className="text-center mb-6 sm:mb-8">
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Get In Touch</h3>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Connect With Us</h3>
+              <div className="flex flex-row items-center justify-center gap-4 sm:gap-8">
                 <div className="flex items-center gap-3 text-sm sm:text-base text-gray-300">
-                  <div className="bg-green-500/20 p-2 rounded-lg">
-                    <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
+                  <div className="bg-pink-500/20 p-2 rounded-lg">
+                  <Link href="https://www.instagram.com/ibvicam/">
+                    <Instagram className="w-4 h-4 sm:w-8 sm:h-8 text-pink-400" />
+                    </Link>
                   </div>
-                  <span>Contact us for more info</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm sm:text-base text-gray-300">
                   <div className="bg-blue-500/20 p-2 rounded-lg">
-                    <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
+                  <Link href="">
+                    <Facebook className="w-4 h-4 sm:w-8 sm:h-8 text-blue-400" />
+                  </Link>
                   </div>
-                  <span>info@bvicam.edu</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm sm:text-base text-gray-300">
+                  <div className="bg-blue-500/30 p-2 rounded-lg">
+                  <Link href="https://www.linkedin.com/school/bharati-vidyapeeth-institute-of-computer-applications-&-management/">
+                    <Linkedin className="w-4 h-4 sm:w-8 sm:h-8 text-blue-100" />
+                  </Link>
+                  </div>
                 </div>
               </div>
             </div>

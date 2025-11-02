@@ -194,9 +194,6 @@ export default function EventCard() {
                   </Link>
                 </div>
               </div>
-
-              {/* Decorative Element */}
-              <div className="absolute -bottom-1 -right-1 w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
             </motion.div>
           ))}
         </AnimatePresence>

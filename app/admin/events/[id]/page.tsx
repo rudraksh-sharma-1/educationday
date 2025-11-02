@@ -1,6 +1,6 @@
 import { createServerClientInstance } from "@/app/lib/supabaseServerClient";
 import { redirect } from "next/navigation";
-import RegistrationsTable from "./RegistrationsTable";
+import RegistrationsTable from "../../RegistrationsTable";
 
 // Define expected structure for type safety
 interface RegistrationRow {
@@ -59,6 +59,7 @@ export default async function EventRegistrationsPage(props: {
       registered_at,
       user_id,
       team_id,
+      phone_number,
       users:user_id (name, email),
       teams:team_id (team_name, team_code)
     `

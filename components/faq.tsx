@@ -131,7 +131,7 @@ export const FAQ = () => {
                     value={faq.id}
                     className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border-2 border-transparent hover:border-blue-200 dark:hover:border-blue-800 px-4 sm:px-6 md:px-8 py-2 transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
-                    <AccordionTrigger className="py-4 sm:py-5 md:py-6 text-left font-semibold hover:no-underline text-sm sm:text-base md:text-lg text-gray-900 dark:text-white">
+                    <AccordionTrigger className="py-4 sm:py-5 md:py-6 text-left  hover:no-underline text-sm sm:text-base md:text-lg text-gray-700 dark:text-white">
                       <span className="pr-4">{faq.question}</span>
                     </AccordionTrigger>
                     <AccordionContent className="pt-0 pb-4 sm:pb-5 md:pb-6 text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -149,32 +149,6 @@ export const FAQ = () => {
                 </motion.div>
               ))}
             </Accordion>
-
-            {/* Additional Help Section */}
-            {/* <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="mt-8 p-6 sm:p-8 bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-2xl border border-indigo-200 dark:border-indigo-800"
-            >
-              <div className="flex items-start gap-4">
-                <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-3 rounded-xl shadow-lg">
-                  <Sparkles className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">
-                    Can't Find Your Answer?
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4">
-                    Don't worry! Our team is always ready to help you with any specific queries you might have.
-                  </p>
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold">
-                    Contact Support
-                  </Button>
-                </div>
-              </div>
-            </motion.div> */}
           </motion.div>
         </div>
       </div>

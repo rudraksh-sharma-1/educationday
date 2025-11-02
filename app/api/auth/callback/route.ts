@@ -2,20 +2,20 @@ import { NextResponse } from 'next/server';
 import { createServerClientInstance } from '@/app/lib/supabaseServerClient';
 
 export async function GET(request: Request) {
-  const supabase = await createServerClientInstance();
+  const requestUrl = new URL(request.url);
+  const code = requestUrl.searchParams.get('code');
+  const next = requestUrl.searchParams.get('next') ?? '/';
 
-  // Supabase automatically parses the OAuth session from the callback URL
-  const { data: { session }, error } = await supabase.auth.getSession();
-
-  if (error) {
-    console.error('Auth callback error:', error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (code) {
+    const supabase = await createServerClientInstance();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    
+    if (error) {
+      console.error('Auth callback error:', error.message);
+      return NextResponse.redirect(`${requestUrl.origin}/?auth=failed`);
+    }
   }
 
-  if (!session) {
-    return NextResponse.redirect('/?auth=failed');
-  }
-
-  // Redirect to home or dashboard
-  return NextResponse.redirect('/');
+  // Redirect to the original page or home
+  return NextResponse.redirect(`${requestUrl.origin}${next}`);
 }

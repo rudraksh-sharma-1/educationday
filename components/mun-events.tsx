@@ -35,7 +35,7 @@ const MunEventsSection: React.FC = () => {
           >
             <Button
               size="lg"
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl shadow-md hover:from-indigo-700 hover:to-purple-700 transition duration-300"
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl shadow-md hover:from-indigo-700 hover:to-purple-700 transition duration-300 cursor-pointer"
             >
               Explore More
             </Button>
@@ -61,7 +61,7 @@ const MunEventsSection: React.FC = () => {
               <li>📅 Date: November 12–13, 2025</li>
               <li>📍 Venue: BVICAM Campus, New Delhi</li>
             </ul>
-            <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-xl transition-colors duration-300">
+            <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-xl transition-colors duration-300 cursor-pointer">
               Register Now
             </button>
           </div>

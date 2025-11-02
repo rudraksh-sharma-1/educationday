@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/app/lib/supabaseClient';
 import { Users, User, Plus, LogIn, Calendar, Award, Phone } from 'lucide-react';
+import { RegisterAuthButton } from '@/components/RegisterAuthButton';
 
 export default function RegisterFormClient({ event }: { event: any }) {
   const router = useRouter();
@@ -256,36 +257,23 @@ export default function RegisterFormClient({ event }: { event: any }) {
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                           <Phone className="h-5 w-5 text-gray-400" />
                         </div>
-                        <input
+                        <input  
                           type="tel"
                           placeholder="Enter 10-digit phone number"
                           value={phoneNumber}
                           onChange={(e) => setPhoneNumber(e.target.value)}
                           maxLength={10}
-                          className="w-full pl-10 border-2 border-indigo-200 rounded-xl sm:rounded-2xl px-4 sm:px-5 py-3 sm:py-4 focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 focus:outline-none text-sm sm:text-base text-gray-900 bg-white transition-all"
+                          className="w-full pl-10! border-2 border-indigo-200 rounded-xl sm:rounded-2xl px-4 sm:px-5 py-3 sm:py-4 focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 focus:outline-none text-sm sm:text-base text-gray-900 bg-white transition-all"
                         />
                       </div>
                     </div>
 
-                    <button
-                      onClick={handleSolo}
-                      disabled={loading}
-                      className={`w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${
-                        loading ? 'opacity-70 cursor-not-allowed' : ''
-                      }`}
-                    >
-                      {loading ? (
-                        <span className="flex items-center justify-center gap-2">
-                          <svg className="animate-spin h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                          </svg>
-                          Processing...
-                        </span>
-                      ) : (
-                        'Proceed with Solo Registration'
-                      )}
-                    </button>
+                    <RegisterAuthButton 
+                      eventId={event.id}
+                      onProceed={handleSolo}
+                      buttonType="solo"
+                      loading={loading}
+                    />
                   </div>
                 </div>
               )}
@@ -404,15 +392,14 @@ export default function RegisterFormClient({ event }: { event: any }) {
                       </div>
                     </div>
                     
-                    <button
-                      onClick={handleCreateTeam}
-                      disabled={loading}
-                      className={`mt-3 sm:mt-4 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${
-                        loading ? 'opacity-70 cursor-not-allowed' : ''
-                      }`}
-                    >
-                      {loading ? 'Creating Team...' : 'Create Team & Lead'}
-                    </button>
+                    <div className="mt-3 sm:mt-4">
+                      <RegisterAuthButton 
+                        eventId={event.id}
+                        onProceed={handleCreateTeam}
+                        buttonType="create-team"
+                        loading={loading}
+                      />
+                    </div>
                   </div>
 
                   {/* Divider */}
@@ -460,15 +447,14 @@ export default function RegisterFormClient({ event }: { event: any }) {
                       </div>
                     </div>
                     
-                    <button
-                      onClick={handleJoinTeam}
-                      disabled={loading}
-                      className={`mt-3 sm:mt-4 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${
-                        loading ? 'opacity-70 cursor-not-allowed' : ''
-                      }`}
-                    >
-                      {loading ? 'Joining Team...' : 'Join Team'}
-                    </button>
+                    <div className="mt-3 sm:mt-4">
+                      <RegisterAuthButton 
+                        eventId={event.id}
+                        onProceed={handleJoinTeam}
+                        buttonType="join-team"
+                        loading={loading}
+                      />
+                    </div>
                   </div>
                     </>
                   )}
@@ -510,25 +496,12 @@ export default function RegisterFormClient({ event }: { event: any }) {
                 </div>
               </div>
 
-              <button
-                onClick={handleSolo}
-                disabled={loading}
-                className={`w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${
-                  loading ? 'opacity-70 cursor-not-allowed' : ''
-                }`}
-              >
-                {loading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Processing...
-                  </span>
-                ) : (
-                  'Register for Event'
-                )}
-              </button>
+              <RegisterAuthButton 
+                eventId={event.id}
+                onProceed={handleSolo}
+                buttonType="solo"
+                loading={loading}
+              />
             </div>
           </div>
         )}

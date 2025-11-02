@@ -67,7 +67,7 @@ export default function EventSchedule() {
     );
 
   return (
-    <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-purple-50/30 to-white dark:from-neutral-950 dark:via-purple-950/10 dark:to-neutral-950" id="schedule">
+    <section className="py-12 sm:py-16 lg:py-18 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-purple-50/30 to-white dark:from-neutral-950 dark:via-purple-950/10 dark:to-neutral-950" id="schedule">
       {/* Section Header */}
       <div className="max-w-7xl mx-auto text-center mb-10 sm:mb-16">
         <motion.div
@@ -95,10 +95,10 @@ export default function EventSchedule() {
             <table className="w-full">
               <thead className="bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">Event</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">Date & Time</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">Coordinators</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">Contact</th>
+                  <th className="px-4 py-4 text-left text-sm font-bold uppercase tracking-wider">Event</th>
+                  <th className="px-4 py-4 text-left text-sm font-bold uppercase tracking-wider">Date & Time</th>
+                  <th className="px-4 py-4 text-left text-sm font-bold uppercase tracking-wider">Coordinators</th>
+                  <th className="px-4 py-4 text-left text-sm font-bold uppercase tracking-wider">Contact</th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-neutral-900 divide-y divide-gray-200 dark:divide-gray-800">
@@ -118,7 +118,7 @@ export default function EventSchedule() {
                         transition={{ delay: i * 0.1 }}
                         className="hover:bg-purple-50 dark:hover:bg-purple-900/10 transition-colors"
                       >
-                        <td className="px-6 py-5">
+                        <td className="px-4 py-5">
                           <div className="flex items-center gap-3">
                             <div className="bg-gradient-to-br from-purple-500 to-pink-500 p-2.5 rounded-xl">
                               <Sparkles className="w-5 h-5 text-white" />
@@ -129,7 +129,7 @@ export default function EventSchedule() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-5">
+                        <td className="px-4 py-5">
                           <div className="space-y-1">
                             <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                               <Calendar className="w-4 h-4 text-purple-600 dark:text-purple-400" />
@@ -141,7 +141,7 @@ export default function EventSchedule() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-5">
+                        <td className="px-4 py-5">
                           {event.coordinators.length ? (
                             <div className="space-y-1.5">
                               {event.coordinators.map((coord, idx) => (
@@ -155,7 +155,7 @@ export default function EventSchedule() {
                             <span className="text-sm text-gray-400">No coordinator assigned</span>
                           )}
                         </td>
-                        <td className="px-6 py-5">
+                        <td className="px-4 py-5">
                           {event.coordinators.length ? (
                             <div className="space-y-1.5">
                               {event.coordinators.map((coord, idx) => (
@@ -323,18 +323,6 @@ export default function EventSchedule() {
             )}
           </AnimatePresence>
         </div>
-
-        {/* Caption */}
-        {events.length > 0 && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-center mt-6 sm:mt-8 text-xs sm:text-sm text-gray-500 dark:text-gray-400"
-          >
-            Showing all upcoming events and their coordinators
-          </motion.p>
-        )}
       </div>
     </section>
   );

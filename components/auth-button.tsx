@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { createClient } from '@/app/lib/supabaseClient';
 import { Button } from '@/components/ui/button';
 import { Loader2, UserCircle } from 'lucide-react';
@@ -10,6 +10,7 @@ import Link from 'next/link';
 
 export function AuthButton({ user: initialUser }: { user?: any }) {
   const router = useRouter();
+  const pathname = usePathname();
   const supabase = createClient();
 
   const [user, setUser] = useState<any>(initialUser || null);
@@ -62,9 +63,15 @@ export function AuthButton({ user: initialUser }: { user?: any }) {
     try {
       setLoading(true);
       toast.loading('Redirecting to Google...');
+      
+      // Get current page path and search params
+      const currentUrl = `${pathname}${window.location.search}`;
+      
       await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: `${location.origin}` },
+        options: { 
+          redirectTo: `${location.origin}/api/auth/callback?next=${encodeURIComponent(currentUrl)}` 
+        },
       });
     } catch (err) {
       console.error('Login error:', err);
@@ -103,7 +110,7 @@ export function AuthButton({ user: initialUser }: { user?: any }) {
     return (
       <div className="flex items-center gap-2">
         <Link href="/profile">
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
+          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer">
             <UserCircle className="w-4 h-4 mr-2" />
             Profile
           </Button>
@@ -111,7 +118,7 @@ export function AuthButton({ user: initialUser }: { user?: any }) {
         <Button
           onClick={handleLogout}
           disabled={loading}
-          className="bg-red-500 hover:bg-red-600 text-white hidden md:flex"
+          className="bg-red-500 hover:bg-red-600 text-white hidden md:flex cursor-pointer"
         >
           {loading ? (
             <>
@@ -129,7 +136,7 @@ export function AuthButton({ user: initialUser }: { user?: any }) {
     <Button
       onClick={handleLogin}
       disabled={loading}
-      className="bg-blue-600 hover:bg-blue-700 text-white"
+      className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
     >
       {loading ? (
         <>
